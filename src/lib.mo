@@ -20,7 +20,7 @@ module {
     /// If this function is called several times in a row, their `executor.add` calls are likely
     /// to fall into the same time. This seems to be not a problem, because IC will probably optimize
     /// these short calls to execute in the same block.
-    public func add<system>(f: shared (pid: Pid, data: Blob) -> async (), data: Blob): async* ()/*Pid*/ {
+    public func add(f: shared (pid: Pid, data: Blob) -> async (), data: Blob): async* ()/*Pid*/ {
       fibersCount += 1;
       if (fibersCount > maxFibers) {
         ignore Timer.setTimer<system>(pauseTime, func (): async () {

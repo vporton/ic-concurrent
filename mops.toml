@@ -1,6 +1,6 @@
 [package]
 name = "concurrent"
-version = "0.1.0"
+version = "0.1.1"
 description = "Run several async processes concurrently, with a limit on the number of processes running at the same time."
 repository = "https://github.com/vporton/ic-concurrent"
 keywords = [
