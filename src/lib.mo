@@ -9,7 +9,7 @@ module {
 
   public type ConcurrentExecutorCanister = actor {
     /// `f` should call `fiberCleanup` when it is done.
-    fiberExecute: (f: shared (pid: Pid) -> async ()) -> async ();
+    fiberExecute: (f: shared (pid: Pid, data: Blob) -> async ()) -> async ();
   };
   
   public class ConcurrentExecutor(executor: ConcurrentExecutorCanister, maxFibers: Nat, pauseTime: Timer.Duration) {
@@ -20,7 +20,7 @@ module {
     /// If this function is called several times in a row, their `executor.add` calls are likely
     /// to fall into the same time. This seems to be not a problem, because IC will probably optimize
     /// these short calls to execute in the same block.
-    public func add<system>(f: shared (pid: Pid) -> async ()): async* ()/*Pid*/ {
+    public func add<system>(f: shared (pid: Pid, data: Blob) -> async (), data: Blob): async* ()/*Pid*/ {
       fibersCount += 1;
       if (fibersCount > maxFibers) {
         ignore Timer.setTimer<system>(pauseTime, func (): async () {
@@ -29,7 +29,7 @@ module {
       } else {
         let pid = nextPid;
         nextPid += 1;
-        await f(pid);
+        await f(pid, data);
       };
       // pid;
     };
