@@ -1,0 +1,7 @@
+[package]
+name = "ic-parallel"
+version = "0.0.1"
+description = "Run several async processes concurrently, with a limit on the number of processes running at the same time."
+repository = "https://github.com/vporton/ic-parallel"
+keywords = [ "async", "parallel", "execution", "performance", "speed", "thread", "process", "fiber" ]
+license = "MIT"
