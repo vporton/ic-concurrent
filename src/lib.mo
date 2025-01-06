@@ -3,6 +3,7 @@
 ///
 /// WARNING: Untested, may not work as expected.
 import Timer "mo:base/Timer";
+import Debug "mo:base/Debug";
 
 module {
   public type Pid = Nat;
@@ -23,19 +24,22 @@ module {
     public func add(f: shared (pid: Pid, data: Blob) -> async (), data: Blob): async* ()/*Pid*/ {
       fibersCount += 1;
       if (fibersCount > maxFibers) {
+        debug Debug.print("ConcurrentExecutor: Delaying fiber start");
         ignore Timer.setTimer<system>(pauseTime, func (): async () {
           await executor.fiberExecute(f);
         });
       } else {
         let pid = nextPid;
         nextPid += 1;
+        debug Debug.print("ConcurrentExecutor: starting pid=" # debug_show(pid));
         await f(pid, data);
       };
       // pid;
     };
 
     /// Callback to be called by `f`, when it is done.
-    public func cleanup(_pid: Pid) {
+    public func cleanup(pid: Pid) {
+      debug Debug.print("ConcurrentExecutor: finishing pid=" # debug_show(pid));
       fibersCount -= 1;
     };
   };
