@@ -7,12 +7,12 @@ import Timer "mo:base/Timer";
 module {
   public type Pid = Nat;
 
-  public type Executor = actor {
+  public type ConcurrentExecutorCanister = actor {
     /// `f` should call `fiberCleanup` when it is done.
     fiberExecute: (f: shared (pid: Pid) -> async ()) -> async ();
   };
   
-  public class ConcurrentExecutor(executor: Executor, maxFibers: Nat, pauseTime: Timer.Duration) {
+  public class ConcurrentExecutor(executor: ConcurrentExecutorCanister, maxFibers: Nat, pauseTime: Timer.Duration) {
     var nextPid = 0;
 
     var fibersCount = 0;
