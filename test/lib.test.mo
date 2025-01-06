@@ -1,3 +1,3 @@
-import {ConcurentExecutor = _} "../src";
+import {ConcurrentExecutor = _} "../src";
 
 // TODO: a test
