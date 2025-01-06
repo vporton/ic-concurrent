@@ -35,7 +35,7 @@ module {
     };
 
     /// Callback to be called by `f`, when it is done.
-    public func fiberCleanup() {
+    public func cleanup(_pid: Pid) {
       fibersCount -= 1;
     };
   };
